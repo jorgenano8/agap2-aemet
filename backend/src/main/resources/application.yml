@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: agap2-aemet
+
+server:
+  port: 8080
+
+aemet:
+  api-key: ${AEMET_API_KEY}
+  base-url: https://opendata.aemet.es/opendata/api
