@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.agap2.aemet.client.AemetClient;
-import com.agap2.aemet.dto.aemet.MunicipioAemetDTO;
+import com.agap2.aemet.dto.aemet.MunicipioAemetResponseDTO;
 import com.agap2.aemet.dto.municipio.MunicipioDTO;
 
 @Service
@@ -18,11 +18,11 @@ public class MunicipioService {
     }
 
     public List<MunicipioDTO> buscarMunicipios(String nombre) {
-        List<MunicipioAemetDTO> municipiosAemet = aemetClient.getMunicipios();
+        List<MunicipioAemetResponseDTO> municipiosAemet = aemetClient.getMunicipios();
 
         return municipiosAemet.stream()
                 .filter(municipio -> municipio.getNombre().toLowerCase().startsWith(nombre.toLowerCase()))
-                .map(municipio -> new MunicipioDTO(eliminarPrefijoId(municipio.getIdOld()), municipio.getNombre()))
+                .map(municipio -> new MunicipioDTO(eliminarPrefijoId(municipio.getId()), municipio.getNombre()))
                 .toList();
     }
 
