@@ -1,6 +1,6 @@
 package com.agap2.aemet.controller;
 
-import com.agap2.aemet.dto.MunicipioDTO;
+import com.agap2.aemet.dto.municipio.MunicipioDTO;
 import com.agap2.aemet.service.MunicipioService;
 
 import java.util.List;

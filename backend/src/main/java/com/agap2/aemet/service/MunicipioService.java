@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.agap2.aemet.client.AemetClient;
-import com.agap2.aemet.dto.MunicipioAemetDTO;
-import com.agap2.aemet.dto.MunicipioDTO;
+import com.agap2.aemet.dto.aemet.MunicipioAemetDTO;
+import com.agap2.aemet.dto.municipio.MunicipioDTO;
 
 @Service
 public class MunicipioService {

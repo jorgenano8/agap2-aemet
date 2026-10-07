@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import com.agap2.aemet.config.AemetProperties;
-import com.agap2.aemet.dto.AemetResponseDTO;
-import com.agap2.aemet.dto.MunicipioAemetDTO;
+import com.agap2.aemet.dto.aemet.AemetResponseDTO;
+import com.agap2.aemet.dto.aemet.MunicipioAemetDTO;
 
 @Component
 public class AemetClient {
