@@ -6,8 +6,6 @@ import lombok.Data;
 
 @JsonIgnoreProperties (ignoreUnknown = true)
 @Data
-public class TemperaturaAemetDTO {
-    private Integer maxima;
-    private Integer minima;
-    
+public class PrediccionAemetResponseDTO {
+    private PrediccionAemetDTO prediccion;
 }

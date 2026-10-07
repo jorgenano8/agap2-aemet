@@ -10,7 +10,8 @@ import org.springframework.web.client.RestClient;
 
 import com.agap2.aemet.config.AemetProperties;
 import com.agap2.aemet.dto.aemet.AemetResponseDTO;
-import com.agap2.aemet.dto.aemet.MunicipioAemetDTO;
+import com.agap2.aemet.dto.aemet.MunicipioAemetResponseDTO;
+import com.agap2.aemet.dto.aemet.PrediccionAemetResponseDTO;
 
 @Component
 public class AemetClient {
@@ -37,7 +38,7 @@ public class AemetClient {
                 .body(AemetResponseDTO.class);
     }
 
-    public List<MunicipioAemetDTO> getMunicipios() {
+    public List<MunicipioAemetResponseDTO> getMunicipios() {
         AemetResponseDTO response = getMunicipiosSource();
         String municipiosJson = externalRestClient.get()
                 .uri(response.getDatos())
@@ -47,10 +48,35 @@ public class AemetClient {
         try {
             return objectMapper.readValue(
                     municipiosJson,
-                    new TypeReference<List<MunicipioAemetDTO>>() {
+                    new TypeReference<List<MunicipioAemetResponseDTO>>() {
                     });
         } catch (JsonProcessingException exception) {
             throw new IllegalStateException("La respuesta de municipios de AEMET no contiene JSON correcto.", exception);
+        }
+    }
+
+    public AemetResponseDTO getPrediccionSource(String municipioId) {
+        return restClient.get()
+                .uri("/prediccion/especifica/municipio/diaria/" + municipioId)
+                .header("api_key", properties.getApiKey())
+                .retrieve()
+                .body(AemetResponseDTO.class);
+    }
+
+    public List<PrediccionAemetResponseDTO> getPrediccion(String municipioId) {
+        AemetResponseDTO response = getPrediccionSource(municipioId);
+        String prediccionJson = externalRestClient.get()
+                .uri(response.getDatos())
+                .retrieve()
+                .body(String.class);
+
+        try {
+            return objectMapper.readValue(
+                    prediccionJson,
+                    new TypeReference<List<PrediccionAemetResponseDTO>>() {
+                    });
+        } catch (JsonProcessingException exception) {
+            throw new IllegalStateException("La respuesta de predicción de AEMET no contiene JSON correcto.", exception);
         }
     }
 
