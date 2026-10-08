@@ -6,5 +6,5 @@ server:
   port: 8080
 
 aemet:
-  api-key: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb3JnZW5hbm84QGdtYWlsLmNvbSIsImp0aSI6ImQxOTFkOGIxLWI5YzUtNDljMy1iYmI5LWIyNzA3MTc4MGRkYiIsImV4cCI6MTc5OTg1NTk2NiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE3OTEyMTU5NjYsInVzZXJJZCI6ImQxOTFkOGIxLWI5YzUtNDljMy1iYmI5LWIyNzA3MTc4MGRkYiIsInJvbGUiOiIifQ.Vkc6gkCoTAwmWalwBqJGGz8GVVmc-QCEPs--5BDDJ10
+  api-key: ${AEMET_API_KEY}
   base-url: https://opendata.aemet.es/opendata/api
