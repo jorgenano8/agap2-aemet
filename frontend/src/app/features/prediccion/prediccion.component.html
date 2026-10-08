@@ -1,0 +1,71 @@
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <section class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow-sm p-3">
+        <form class="row" [formGroup]="formulario">
+          <div class="col position-relative">
+            <input class="form-control" type="search" autocomplete="off" formControlName="municipio"
+              placeholder="Buscar municipio..." />
+
+            @if (municipios$ | async; as municipios) {
+              @if (municipios.length > 0 && formulario.controls.municipio.value !== municipioSeleccionado()?.nombre) {
+                <div class="dropdown-menu show w-100">
+                  @for (municipio of municipios; track municipio.codigo) {
+                    <button class="dropdown-item" type="button" (click)="seleccionarMunicipio(municipio)">
+                      {{ municipio.nombre }}
+                    </button>
+                  }
+                </div>
+              }
+            }
+          </div>
+
+          <div class="col-auto">
+            <select class="form-select" formControlName="unidad" >
+              @for (opcion of opcionesUnidad; track opcion.valor) {
+                <option [value]="opcion.valor">{{ opcion.etiqueta }}</option>
+              }
+            </select>
+          </div>
+        </form>
+
+        @if (error(); as mensaje) {
+          <div class="alert alert-danger mt-3" role="alert">{{ mensaje }}</div>
+        }
+
+        @if (prediccion(); as prediccion) {
+          <div class="px-3 py-4">
+            <h2 class="mb-1">{{ municipioSeleccionado()?.nombre }}</h2>
+            <p class="text-secondary mb-4">{{ fechaManana }}</p>
+
+            <div class="d-flex align-items-start mb-5">
+              <span class="display-2 lh-1 bold">
+                {{ prediccion.mediaTemperatura | number: '1.0-1' }}
+              </span>
+              <span class="text-secondary mt-2">
+                {{ prediccion.unidadTemperatura === 'G_FAH' ? '°F' : '°C' }}
+              </span>
+            </div>
+
+            @if (prediccion.probPrecipitacion.length > 0) {
+              <div>
+                <div class="pb-2 d-flex justify-content-around text-center">
+                  @for (periodo of prediccion.probPrecipitacion; track periodo.periodo) {
+                    <div class="d-flex flex-column gap-1">
+                      <strong class="text-primary">{{ periodo.probabilidad }}%</strong>
+                      <small class="text-secondary">{{ periodo.periodo }}</small>
+                    </div>
+                  }
+                </div>
+              </div>
+              }
+          </div>
+        } @else if (!error()) {
+          <div class="text-secondary text-center py-5">
+            <p>Busca un municipio para consultar su predicción.</p>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</main>
