@@ -43,20 +43,18 @@ export class PrediccionComponent {
         catchError(() => {
           this.error.set('No se pudieron cargar los municipios. Por favor, inténtalo de nuevo más tarde.');
           return of([]);
-        }),
-      ),
-    ),
+        })
+      )
+    )
   );
 
   constructor() {
-    this.formulario.valueChanges
-      .pipe(
-        takeUntilDestroyed(),
-        switchMap(({ municipio, unidad }) =>
-          this.actualizarPrediccion(municipio ?? '', unidad ?? ''),
-        ),
+    this.formulario.valueChanges.pipe(
+      takeUntilDestroyed(),
+      switchMap(({ municipio, unidad }) =>
+        this.actualizarPrediccion(municipio ?? '', unidad ?? ''),
       )
-      .subscribe((prediccion) => this.prediccion.set(prediccion));
+    ).subscribe((prediccion) => this.prediccion.set(prediccion));
   }
 
   seleccionarMunicipio(municipio: Municipio): void {
@@ -78,7 +76,7 @@ export class PrediccionComponent {
       catchError(() => {
         this.error.set('No se pudo cargar la predicción de ' + municipio.nombre + '. Por favor, inténtalo de nuevo más tarde.');
         return of(null);
-      }),
+      })
     );
   }
 
