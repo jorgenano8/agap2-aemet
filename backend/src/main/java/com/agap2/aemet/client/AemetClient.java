@@ -12,6 +12,7 @@ import com.agap2.aemet.config.AemetProperties;
 import com.agap2.aemet.dto.aemet.AemetResponseDTO;
 import com.agap2.aemet.dto.aemet.MunicipioAemetResponseDTO;
 import com.agap2.aemet.dto.aemet.PrediccionAemetResponseDTO;
+import com.agap2.aemet.exception.AemetResponseException;
 
 @Component
 public class AemetClient {
@@ -27,7 +28,7 @@ public class AemetClient {
         this.restClient = restClientBuilder
                 .baseUrl(properties.getBaseUrl())
                 .build();
-        this.externalRestClient = RestClient.builder().build();
+        this.externalRestClient = restClientBuilder.build();
     }
 
     public AemetResponseDTO getMunicipiosSource() {
@@ -40,6 +41,7 @@ public class AemetClient {
 
     public List<MunicipioAemetResponseDTO> getMunicipios() {
         AemetResponseDTO response = getMunicipiosSource();
+        validateResponse(response);
         String municipiosJson = externalRestClient.get()
                 .uri(response.getDatos())
                 .retrieve()
@@ -65,6 +67,7 @@ public class AemetClient {
 
     public List<PrediccionAemetResponseDTO> getPrediccion(String municipioId) {
         AemetResponseDTO response = getPrediccionSource(municipioId);
+        validateResponse(response);
         String prediccionJson = externalRestClient.get()
                 .uri(response.getDatos())
                 .retrieve()
@@ -77,6 +80,12 @@ public class AemetClient {
                     });
         } catch (JsonProcessingException exception) {
             throw new IllegalStateException("La respuesta de predicción de AEMET no contiene JSON correcto.", exception);
+        }
+    }
+
+    private void validateResponse(AemetResponseDTO response) {
+        if (response == null || response.getEstado() != 1 || response.getDatos() == null || response.getDatos().isBlank()) {
+            throw new AemetResponseException("AEMET devolvió una respuesta sin datos utilizables.");
         }
     }
 
