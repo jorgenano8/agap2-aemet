@@ -84,7 +84,7 @@ public class AemetClient {
     }
 
     private void validateResponse(AemetResponseDTO response) {
-        if (response == null || response.getEstado() != 1 || response.getDatos() == null || response.getDatos().isBlank()) {
+        if (response == null || response.getEstado() != 200 || response.getDatos() == null || response.getDatos().isBlank()) {
             throw new AemetResponseException("AEMET devolvió una respuesta sin datos utilizables.");
         }
     }
