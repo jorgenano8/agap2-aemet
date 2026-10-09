@@ -30,7 +30,7 @@
         </form>
 
         @if (error(); as mensaje) {
-          <div class="alert alert-danger mt-3" role="alert">{{ mensaje }}</div>
+          <div class="alert alert-danger mt-4" role="alert">{{ mensaje }}</div>
         }
 
         @if (prediccion(); as prediccion) {
@@ -39,6 +39,8 @@
             <p class="text-secondary mb-4">{{ fechaManana }}</p>
 
             <div class="d-flex align-items-start mb-5">
+              <i class="bi display-4 text-secondary me-3" [class]="obtenerIconoTemperatura(prediccion.mediaTemperatura, prediccion.unidadTemperatura)">
+              </i>
               <span class="display-2 lh-1 bold">
                 {{ prediccion.mediaTemperatura | number: '1.0-1' }}
               </span>
@@ -47,6 +49,7 @@
               </span>
             </div>
 
+            <h3 class="h6 text-secondary mb-3">Probabilidad de precipitación</h3>
             @if (prediccion.probPrecipitacion.length > 0) {
               <div>
                 <div class="pb-2 d-flex justify-content-around text-center">

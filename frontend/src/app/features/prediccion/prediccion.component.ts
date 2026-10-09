@@ -63,6 +63,32 @@ export class PrediccionComponent {
     this.formulario.controls.municipio.setValue(municipio.nombre);
   }
 
+  obtenerIconoTemperatura(temperatura: number, unidad: UnidadTemperatura): string {
+    const temperaturaReal = unidad === 'G_FAH' ? (temperatura - 32) * 5 / 9 : temperatura;
+
+    if (temperaturaReal < 0) {
+      return 'bi-snow';
+    }
+
+    if (temperaturaReal < 10) {
+      return 'bi-cloud-drizzle';
+    }
+
+    if (temperaturaReal < 18) {
+      return 'bi-cloud';
+    }
+
+    if (temperaturaReal < 25) {
+      return 'bi-cloud-sun';
+    }
+
+    if (temperaturaReal < 35) {
+      return 'bi-sun';
+    }
+
+    return 'bi-thermometer-sun';
+  }
+
   private actualizarPrediccion(nombreMunicipio: string, unidad: UnidadTemperatura | ''): Observable<Prediccion | null> {
     const municipio = this.municipioSeleccionado();
 
